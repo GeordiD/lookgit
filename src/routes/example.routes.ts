@@ -1,9 +1,9 @@
 import { FastifyInstance } from 'fastify';
 import { db } from '../db/client';
-import { ExampleSchema, examples } from '../db/schema';
 import { z } from 'zod';
 import { ZodTypeProvider } from 'fastify-type-provider-zod';
 import { getAllResponse } from '../types/responses';
+import { ExampleSchema, examples } from '../db/schema/examples';
 
 export async function exampleRoutes(fastify: FastifyInstance) {
   const url = '/api/examples';

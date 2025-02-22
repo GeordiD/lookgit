@@ -7,6 +7,7 @@ import {
 import { authRoutes } from '../routes/auth.routes';
 import { setupAuth } from './auth';
 import { setupLogger } from './setupLogger';
+import { repoRoutes } from '../routes/repo.routes';
 
 const env =
   process.env.ENVIRONMENT === 'development' ? 'development' : 'production';
@@ -30,6 +31,7 @@ app.register((instance) => {
 
 // Unprotected Routes
 app.register(authRoutes);
+app.register(repoRoutes);
 
 export const initServer = async () => {
   try {

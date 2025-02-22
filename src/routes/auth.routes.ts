@@ -1,10 +1,10 @@
 import { FastifyInstance } from 'fastify';
 import { ZodTypeProvider } from 'fastify-type-provider-zod';
-import { users } from '../db/schema';
 import { eq } from 'drizzle-orm';
 import { db } from '../db/client';
 import bcrypt from 'bcrypt';
 import { z } from 'zod';
+import { users } from '../db/schema/users';
 
 async function saltPassword(password: string): Promise<string> {
   const salt = await bcrypt.genSalt(10);
