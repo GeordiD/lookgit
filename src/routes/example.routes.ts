@@ -7,6 +7,7 @@ import { ExampleSchema, examples } from '../db/schema/examples';
 
 export async function exampleRoutes(fastify: FastifyInstance) {
   const url = '/api/examples';
+  const tags = ['examples'];
 
   fastify.withTypeProvider<ZodTypeProvider>().route({
     method: 'GET',
@@ -15,6 +16,7 @@ export async function exampleRoutes(fastify: FastifyInstance) {
       response: {
         200: getAllResponse(ExampleSchema),
       },
+      tags,
     },
     handler: async () => {
       const results = await db.select().from(examples);
@@ -38,6 +40,7 @@ export async function exampleRoutes(fastify: FastifyInstance) {
           insertedId: z.number(),
         }),
       },
+      tags,
     },
     handler: async (req) => {
       const result = await db

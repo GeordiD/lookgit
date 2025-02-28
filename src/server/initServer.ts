@@ -8,6 +8,7 @@ import { authRoutes } from '../routes/auth.routes';
 import { setupAuth } from './auth';
 import { setupLogger } from './setupLogger';
 import { repoRoutes } from '../routes/repo.routes';
+import { setupSwagger } from './swagger';
 
 const env =
   process.env.ENVIRONMENT === 'development' ? 'development' : 'production';
@@ -17,6 +18,8 @@ const app = Fastify({
 });
 
 setupAuth(app);
+
+setupSwagger(app);
 
 // Add schema validator and serializer
 app.setValidatorCompiler(validatorCompiler);
@@ -29,9 +32,12 @@ app.register((instance) => {
   app.register(exampleRoutes);
 });
 
-// Unprotected Routes
+// // Unprotected Routes
 app.register(authRoutes);
 app.register(repoRoutes);
+
+await app.ready();
+app.swagger();
 
 export const initServer = async () => {
   try {

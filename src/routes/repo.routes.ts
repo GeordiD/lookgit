@@ -8,18 +8,25 @@ import { octokit } from '../utils/github';
 
 export async function repoRoutes(fastify: FastifyInstance) {
   const url = '/api/repos';
+  const tags = ['repos'];
 
   fastify.withTypeProvider<ZodTypeProvider>().route({
     method: 'POST',
     url: `${url}/:repoId/sync`,
     schema: {
-      params: z.object({
-        repoId: z.coerce.number(),
-      }),
+      body: z.any(),
+      response: {
+        200: z.any(),
+      },
+      tags,
     },
+
     handler: async (req, reply) => {
+      // Theoretically, schema.params should do this but it's throwing off swagger
+      const { repoId } = req.params as { repoId: string };
+
       const repo = await db.query.repos.findFirst({
-        where: eq(repos.id, req.params.repoId),
+        where: eq(repos.id, Number.parseInt(repoId)),
       });
 
       if (!repo) {

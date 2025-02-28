@@ -13,6 +13,7 @@ async function saltPassword(password: string): Promise<string> {
 
 export async function authRoutes(fastify: FastifyInstance) {
   const url = '/api/auth';
+  const tags = ['auth'];
 
   // LOGIN
   fastify.withTypeProvider<ZodTypeProvider>().route({
@@ -23,6 +24,7 @@ export async function authRoutes(fastify: FastifyInstance) {
         email: z.string().min(1),
         password: z.string().min(1),
       }),
+      tags,
     },
     handler: async (req, reply) => {
       const { email, password } = req.body;
@@ -64,6 +66,7 @@ export async function authRoutes(fastify: FastifyInstance) {
           message: z.string(),
         }),
       },
+      tags,
     },
     handler: async (req, reply) => {
       reply.clearCookie('access_token');
@@ -81,6 +84,7 @@ export async function authRoutes(fastify: FastifyInstance) {
         email: z.string().min(8),
         password: z.string().min(8),
       }),
+      tags,
     },
     handler: async (req, reply) => {
       // See if a user already exists with that username
